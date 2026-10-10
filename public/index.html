@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#263f35">
+  <title>Tak — A Beautiful Game</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Tak home"><span class="brand-mark" aria-hidden="true">t</span> TAK <span class="brand-caption">A BEAUTIFUL GAME</span></a>
+    <button class="text-button" id="rules-open">How to play <span aria-hidden="true">↗</span></button>
+  </header>
+  <main>
+    <div class="intro">
+      <div><p class="eyebrow">A LITTLE STRATEGY. A BEAUTIFUL CONNECTION.</p><h1>Make your own road.</h1><p class="subtitle">Two players. One board. Endless possibilities.</p></div>
+      <span class="local-badge"><span></span> LOCAL TWO-PLAYER</span>
+    </div>
+    <div class="game-layout">
+      <section class="board-section" aria-label="Tak game board">
+        <div class="board-toolbar"><div><span class="live-dot"></span><strong id="board-label">5 × 5 board</strong><span class="muted"> · </span><span id="turn-number">Turn 1</span></div><button class="text-button" id="undo" disabled>↶ Undo</button></div>
+        <div class="board-frame">
+          <div id="column-labels" class="column-labels" aria-hidden="true"></div>
+          <div id="row-labels" class="row-labels" aria-hidden="true"></div>
+          <div id="board" class="board" role="group" aria-label="Board squares"></div>
+        </div>
+        <div class="board-footer"><span><i class="legend-dot"></i> Connect opposite edges to win</span><span id="size-caption">Carry limit: 5</span></div>
+      </section>
+      <aside class="sidebar">
+        <section class="turn-card"><p class="eyebrow" id="phase">OPENING MOVE</p><h2 id="status">Ivory’s turn</h2><p id="instruction"></p></section>
+        <section class="panel players-panel" aria-label="Players and reserves">
+          <div class="panel-heading"><h3>The players</h3><span>PIECES LEFT</span></div>
+          <div id="players"></div>
+        </section>
+        <section class="panel controls-panel" aria-label="Move controls">
+          <div class="action-tabs"><button id="place-mode" class="active" aria-pressed="true">Place a piece</button><button id="move-mode" aria-pressed="false">Move a stack</button></div>
+          <div id="placement-controls" class="piece-options">
+            <button data-piece="flat" class="piece-option selected" aria-pressed="true"><span class="piece-demo flat ivory"></span><strong>Flat</strong><small>Build a road</small></button>
+            <button data-piece="wall" class="piece-option" aria-pressed="false"><span class="piece-demo wall ivory"></span><strong>Standing</strong><small>Block a path</small></button>
+            <button data-piece="cap" class="piece-option" aria-pressed="false"><span class="piece-demo cap ivory"></span><strong>Capstone</strong><small>Break through</small></button>
+          </div>
+          <div id="movement-controls" hidden>
+            <p class="control-help">Select a stack you control, then choose how to spread it.</p>
+            <label for="carry">Pieces to carry <output id="carry-value">1</output></label>
+            <input id="carry" type="range" min="1" max="1" value="1">
+            <label for="drops">Drops along the path</label>
+            <input id="drops" type="text" value="1" inputmode="numeric" autocomplete="off" aria-describedby="drop-help">
+            <small id="drop-help">Use comma-separated counts, e.g. 1,2. Click a highlighted destination to move.</small>
+          </div>
+          <p id="feedback" role="status" aria-live="polite">Choose a piece, then an empty square.</p>
+        </section>
+        <section class="panel new-game-panel"><label for="board-size">Board size</label><div class="new-game-row"><select id="board-size"><option value="3">3 × 3 · Quick</option><option value="4">4 × 4 · Small</option><option value="5" selected>5 × 5 · Classic</option><option value="6">6 × 6 · Expanded</option><option value="8">8 × 8 · Grand</option></select><button id="new-game" class="primary-button">New game</button></div></section>
+      </aside>
+    </div>
+    <section class="tip"><span class="tip-icon" aria-hidden="true">✧</span><div><strong>Simple to learn. A lifetime to master.</strong><p>Flats connect. Standing stones defend. Capstones change everything.</p></div><button class="text-button" id="rules-bottom">Learn the rules →</button></section>
+  </main>
+  <footer>TAK <span>Inspired by a beautiful game of roads and possibility.</span><span>Made for moments across the table.</span></footer>
+  <dialog id="rules-dialog" aria-labelledby="rules-title">
+    <div class="dialog-heading"><div><p class="eyebrow">THE BEAUTIFUL GAME</p><h2 id="rules-title">How to play Tak</h2></div><button id="rules-close" aria-label="Close rules">✕</button></div>
+    <p>Play with a friend on the same device. Ivory goes first. Connect the left and right edges, or the top and bottom edges, with a road of your visible flat stones and capstones. Connections are orthogonal, never diagonal.</p>
+    <h3>1. The opening swap</h3><p>On each of the first two turns, place one <strong>opponent’s flat stone</strong> on an empty square. After that, play your own pieces.</p>
+    <h3>2. Place or move</h3><p>On your turn, place a flat, standing stone (wall), or capstone on an empty square, or move a stack with your color on top. Flats and standing stones share the same reserve.</p>
+    <h3>3. Spread a stack</h3><p>Carry any number of top pieces up to the board width. Travel in one straight direction, dropping at least one piece per square from the bottom of the carried stack. Select <strong>Move a stack</strong>, click your stack, choose a carry count and drop pattern, then click a highlighted destination. For example, carrying 3 and dropping <strong>1,2</strong> travels two squares.</p>
+    <h3>4. Walls and capstones</h3><p>You can stack on flats, but never on capstones. A standing stone blocks movement unless the final drop is a single capstone with nothing beneath it in the carried stack. That capstone flattens the wall. Walls are not part of roads.</p>
+    <h3>5. Winning</h3><p>A road wins immediately. If a move creates roads for both players, the mover wins. If the board fills or either player uses all their stones and capstones, count only visible <strong>flat stones</strong> (not walls or capstones). The higher count wins; equal counts are a draw. A road takes priority over flat scoring.</p>
+    <p class="rules-source">Standard rules, no komi. <a href="https://ustak.org/play-beautiful-game-tak/" target="_blank" rel="noopener noreferrer">More about Tak ↗</a></p>
+  </dialog>
+</body>
+</html>
